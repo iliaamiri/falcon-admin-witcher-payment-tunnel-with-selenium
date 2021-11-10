@@ -21,6 +21,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FalconCardHeader from '../common/FalconCardHeader';
 import orders from '../../data/e-commerce/orders';
 import { getPaginationArray } from '../../helpers/utils';
+import Form from "reactstrap/es/Form";
+import FormGroup from "reactstrap/es/FormGroup";
+import Label from "reactstrap/es/Label";
+import Flex from "../common/Flex";
+import FalconInput from "../common/FalconInput";
 
 const orderFormatter = (dataField, { id, name, email }: row) => (
   <Fragment>
@@ -235,8 +240,27 @@ const Orders = () => {
           {({ paginationProps, paginationTableProps }) => {
             const lastIndex = paginationProps.page * paginationProps.sizePerPage;
 
+            function setCardNumber() {
+
+            }
+
             return (
               <Fragment>
+                {/* To add the form for reports and shits */}
+                
+                {/*<Row noGutters className="px-1 py-3 flex-between-center">*/}
+                {/*  <Form>*/}
+                {/*    <FormGroup>*/}
+                {/*      <FalconInput*/}
+                {/*          label="Card Number"*/}
+                {/*          className="input-spin-none"*/}
+                {/*          placeholder="•••• •••• •••• ••••"*/}
+                {/*          onChange={setCardNumber}*/}
+                {/*          type="number"*/}
+                {/*      />*/}
+                {/*    </FormGroup>*/}
+                {/*  </Form>*/}
+                {/*</Row>*/}
                 <div className="table-responsive">
                   <BootstrapTable
                     ref={table}
