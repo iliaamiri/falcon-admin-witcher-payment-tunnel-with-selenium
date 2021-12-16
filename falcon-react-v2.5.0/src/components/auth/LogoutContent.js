@@ -18,7 +18,7 @@ const LogoutContent = ({ layout, titleTag: TitleTag }) => {
         Thanks for using Falcon. You are <br className="d-none d-sm-block" />
         now successfully signed out.
       </p>
-      <Button tag={Link} color="primary" size="sm" className="mt-3" to={`/authentication/${layout}/login`}>
+      <Button tag={Link} color="primary" size="sm" className="mt-3" to={`/auth/login`}>
         <FontAwesomeIcon icon="chevron-left" transform="shrink-4 down-1" className="mr-1" />
         Return to Login
       </Button>

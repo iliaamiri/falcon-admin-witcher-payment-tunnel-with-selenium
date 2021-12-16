@@ -159,17 +159,17 @@ const SidePanelModal = ({ autoShow, showOnce, autoShowDelay, cookieExpireTime })
           </Media>
         </Media>
         <hr />
-        <div className="text-center mt-5">
-          <img src={settings} alt="settings" width={120} className="mb-4" />
-          <h5>Like What You See?</h5>
-          <p className="fs--1">Get Falcon now and create beautiful dashboards with hundreds of widgets.</p>
-          <Button
-            color="primary"
-            href="https://themes.getbootstrap.com/product/falcon-admin-dashboard-webapp-template-react/"
-          >
-            Purchase
-          </Button>
-        </div>
+        {/*<div className="text-center mt-5">*/}
+        {/*  <img src={settings} alt="settings" width={120} className="mb-4" />*/}
+        {/*  <h5>Like What You See?</h5>*/}
+        {/*  <p className="fs--1">Get Falcon now and create beautiful dashboards with hundreds of widgets.</p>*/}
+        {/*  <Button*/}
+        {/*    color="primary"*/}
+        {/*    href="https://themes.getbootstrap.com/product/falcon-admin-dashboard-webapp-template-react/"*/}
+        {/*  >*/}
+        {/*    Purchase*/}
+        {/*  </Button>*/}
+        {/*</div>*/}
       </ScrollBarCustom>
     </Modal>
   );

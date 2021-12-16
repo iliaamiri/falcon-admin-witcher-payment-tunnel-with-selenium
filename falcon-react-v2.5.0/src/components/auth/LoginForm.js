@@ -11,7 +11,6 @@ const LoginForm = ({setRedirect, hasLabel, layout}) => {
     const [api_key, setApiKey] = useState('');
     const [remember, setRemember] = useState(true);
     const [isDisabled, setIsDisabled] = useState(true);
-    const [shouldRedirect, setShouldRedirect] = useState(false);
 
     // Handler
     const handleSubmit = e => {
@@ -28,13 +27,11 @@ const LoginForm = ({setRedirect, hasLabel, layout}) => {
             .then(token => auth.saveToken(token))
             .then(() => {
                 toast.success(`Logged in as ${api_key}`);
-                window.location.href = '/';
+                setRedirect(true)
             })
             .catch(err => {
                 console.log(err)
             })
-
-
     };
 
     useEffect(() => {

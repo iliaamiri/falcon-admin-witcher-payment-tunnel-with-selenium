@@ -27,6 +27,7 @@ import FormGroup from "reactstrap/es/FormGroup";
 import Label from "reactstrap/es/Label";
 import Flex from "../common/Flex";
 import FalconInput from "../common/FalconInput";
+import ReportForm from "../myCustoms/ReportsForm";
 
 const seleniumServerIdFormatter = (dataField, { selenium_server_id }: row) => (
   <Fragment>
@@ -271,7 +272,7 @@ const Orders = () => {
     getReport();
   }, [])
 
-  console.log(reportsData)
+  // console.log(reportsData)
 
   const options = {
     custom: true,
@@ -297,113 +298,116 @@ const Orders = () => {
   };
 
   return (
-    <Card className="mb-3">
-      <FalconCardHeader title="Orders" light={false}>
-        {isSelected ? (
-          <InputGroup size="sm" className="input-group input-group-sm">
-            <CustomInput type="select" id="bulk-select">
-              <option>Bulk actions</option>
-              <option value="Refund">Refund</option>
-              <option value="Delete">Delete</option>
-              <option value="Archive">Archive</option>
-            </CustomInput>
-            <Button color="falcon-default" size="sm" className="ml-2">
-              Apply
-            </Button>
-          </InputGroup>
-        ) : (
-          <Fragment>
-            <ButtonIcon icon="plus" transform="shrink-3 down-2" color="falcon-default" size="sm">
-              New
-            </ButtonIcon>
-            <ButtonIcon icon="filter" transform="shrink-3 down-2" color="falcon-default" size="sm" className="mx-2">
-              Filter
-            </ButtonIcon>
-            <ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" size="sm">
-              Export
-            </ButtonIcon>
-          </Fragment>
-        )}
-      </FalconCardHeader>
-      <CardBody className="p-0">
-        <PaginationProvider pagination={paginationFactory(options)}>
-          {({ paginationProps, paginationTableProps }) => {
-            const lastIndex = paginationProps.page * paginationProps.sizePerPage;
-
-            function setCardNumber() {
-
-            }
-
-            return (
+    <>
+      <ReportForm />
+      <Card className="mb-3">
+        <FalconCardHeader light={false}>
+          {isSelected ? (
+              <InputGroup size="sm" className="input-group input-group-sm">
+                <CustomInput type="select" id="bulk-select">
+                  <option>Bulk actions</option>
+                  <option value="Refund">Refund</option>
+                  <option value="Delete">Delete</option>
+                  <option value="Archive">Archive</option>
+                </CustomInput>
+                <Button color="falcon-default" size="sm" className="ml-2">
+                  Apply
+                </Button>
+              </InputGroup>
+          ) : (
               <Fragment>
-                {/* To add the form for reports and shits */}
-
-                {/*<Row noGutters className="px-1 py-3 flex-between-center">*/}
-                {/*  <Form>*/}
-                {/*    <FormGroup>*/}
-                {/*      <FalconInput*/}
-                {/*          label="Card Number"*/}
-                {/*          className="input-spin-none"*/}
-                {/*          placeholder="•••• •••• •••• ••••"*/}
-                {/*          onChange={setCardNumber}*/}
-                {/*          type="number"*/}
-                {/*      />*/}
-                {/*    </FormGroup>*/}
-                {/*  </Form>*/}
-                {/*</Row>*/}
-                <div className="table-responsive">
-                  <BootstrapTable
-                    ref={table}
-                    bootstrap4
-                    keyField="id"
-                    data={reportsData.data}
-                    columns={columns}
-                    selectRow={selectRow(onSelect)}
-                    bordered={false}
-                    classes="table-dashboard table-striped table-sm fs--1 border-bottom mb-0 table-dashboard-th-nowrap"
-                    rowClasses="btn-reveal-trigger"
-                    headerClasses="bg-200 text-900"
-                    {...paginationTableProps}
-                  />
-                </div>
-                <Row noGutters className="px-1 py-3 flex-center">
-                  <Col xs="auto">
-                    <Button
-                      color="falcon-default"
-                      size="sm"
-                      onClick={handlePrevPage(paginationProps)}
-                      disabled={paginationProps.page === 1}
-                    >
-                      <FontAwesomeIcon icon="chevron-left" />
-                    </Button>
-                    {getPaginationArray(paginationProps.totalSize, paginationProps.sizePerPage).map(pageNo => (
-                      <Button
-                        color={paginationProps.page === pageNo ? 'falcon-primary' : 'falcon-default'}
-                        size="sm"
-                        className="ml-2"
-                        onClick={() => paginationProps.onPageChange(pageNo)}
-                        key={pageNo}
-                      >
-                        {pageNo}
-                      </Button>
-                    ))}
-                    <Button
-                      color="falcon-default"
-                      size="sm"
-                      className="ml-2"
-                      onClick={handleNextPage(paginationProps)}
-                      disabled={lastIndex >= paginationProps.totalSize}
-                    >
-                      <FontAwesomeIcon icon="chevron-right" />
-                    </Button>
-                  </Col>
-                </Row>
+                {/*<ButtonIcon icon="plus" transform="shrink-3 down-2" color="falcon-default" size="sm">*/}
+                {/*  New*/}
+                {/*</ButtonIcon>*/}
+                {/*<ButtonIcon icon="filter" transform="shrink-3 down-2" color="falcon-default" size="sm" className="mx-2">*/}
+                {/*  Filter*/}
+                {/*</ButtonIcon>*/}
+                {/*<ButtonIcon icon="external-link-alt" transform="shrink-3 down-2" color="falcon-default" size="sm">*/}
+                {/*  Export*/}
+                {/*</ButtonIcon>*/}
               </Fragment>
-            );
-          }}
-        </PaginationProvider>
-      </CardBody>
-    </Card>
+          )}
+        </FalconCardHeader>
+        <CardBody className="p-0">
+          <PaginationProvider pagination={paginationFactory(options)}>
+            {({ paginationProps, paginationTableProps }) => {
+              const lastIndex = paginationProps.page * paginationProps.sizePerPage;
+
+              function setCardNumber() {
+
+              }
+
+              return (
+                  <Fragment>
+                    {/* To add the form for reports and shits */}
+
+                    {/*<Row noGutters className="px-1 py-3 flex-between-center">*/}
+                    {/*  <Form>*/}
+                    {/*    <FormGroup>*/}
+                    {/*      <FalconInput*/}
+                    {/*          label="Card Number"*/}
+                    {/*          className="input-spin-none"*/}
+                    {/*          placeholder="•••• •••• •••• ••••"*/}
+                    {/*          onChange={setCardNumber}*/}
+                    {/*          type="number"*/}
+                    {/*      />*/}
+                    {/*    </FormGroup>*/}
+                    {/*  </Form>*/}
+                    {/*</Row>*/}
+                    <div className="table-responsive">
+                      <BootstrapTable
+                          ref={table}
+                          bootstrap4
+                          keyField="id"
+                          data={reportsData.data}
+                          columns={columns}
+                          selectRow={selectRow(onSelect)}
+                          bordered={false}
+                          classes="table-dashboard table-striped table-sm fs--1 border-bottom mb-0 table-dashboard-th-nowrap"
+                          rowClasses="btn-reveal-trigger"
+                          headerClasses="bg-200 text-900"
+                          {...paginationTableProps}
+                      />
+                    </div>
+                    <Row noGutters className="px-1 py-3 flex-center">
+                      <Col xs="auto">
+                        <Button
+                            color="falcon-default"
+                            size="sm"
+                            onClick={handlePrevPage(paginationProps)}
+                            disabled={paginationProps.page === 1}
+                        >
+                          <FontAwesomeIcon icon="chevron-left" />
+                        </Button>
+                        {getPaginationArray(paginationProps.totalSize, paginationProps.sizePerPage).map(pageNo => (
+                            <Button
+                                color={paginationProps.page === pageNo ? 'falcon-primary' : 'falcon-default'}
+                                size="sm"
+                                className="ml-2"
+                                onClick={() => paginationProps.onPageChange(pageNo)}
+                                key={pageNo}
+                            >
+                              {pageNo}
+                            </Button>
+                        ))}
+                        <Button
+                            color="falcon-default"
+                            size="sm"
+                            className="ml-2"
+                            onClick={handleNextPage(paginationProps)}
+                            disabled={lastIndex >= paginationProps.totalSize}
+                        >
+                          <FontAwesomeIcon icon="chevron-right" />
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Fragment>
+              );
+            }}
+          </PaginationProvider>
+        </CardBody>
+      </Card>
+    </>
   );
 };
 
