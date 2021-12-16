@@ -7,11 +7,11 @@ const Login = () => (
   <Fragment>
     <Row className="text-left justify-content-between">
       <Col xs="auto">
-        <h5>Log in</h5>
+        <h5>Api Admin Panel</h5>
       </Col>
       <Col xs="auto">
         <p className="fs--1 text-600">
-          or <Link to="/authentication/basic/register">create an account</Link>
+          or <Link to="/auth/register">contact admin for inquiries</Link>
         </p>
       </Col>
     </Row>

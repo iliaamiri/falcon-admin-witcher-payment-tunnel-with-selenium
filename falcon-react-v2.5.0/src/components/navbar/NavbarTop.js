@@ -41,7 +41,7 @@ const NavbarTop = () => {
         {!isTopNav ? (
           <Nav navbar className="align-items-center d-none d-lg-block">
             <NavItem>
-              <SearchBox />
+              {/*<SearchBox />*/}
             </NavItem>
           </Nav>
         ) : (

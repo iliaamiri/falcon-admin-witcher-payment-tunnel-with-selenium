@@ -5,7 +5,7 @@ const AppContext = createContext({
   isRTL: false,
   isDark: false,
   showBurgerMenu: false, // controls showing vertical nav on mobile
-  currency: '$',
+  currency: 'تومان',
   isNavbarVerticalCollapsed: false,
   isTopNav: false
 });

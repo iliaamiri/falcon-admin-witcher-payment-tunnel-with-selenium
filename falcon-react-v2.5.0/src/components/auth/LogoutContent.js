@@ -4,8 +4,12 @@ import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import rocket from '../../assets/img/illustrations/rocket.png';
+import {auth} from '../../witcherApi/api';
 
 const LogoutContent = ({ layout, titleTag: TitleTag }) => {
+    auth.logout()
+        .then(() => localStorage.removeItem('tokenBearer'))
+
   return (
     <Fragment>
       <img className="d-block mx-auto mb-4" src={rocket} alt="shield" width={70} />

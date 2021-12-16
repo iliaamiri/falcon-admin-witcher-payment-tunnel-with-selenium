@@ -25,9 +25,9 @@ const TopNavRightSideNavItem = () => {
           </UncontrolledTooltip>
         </NavItem>
       )}
-      <CartNotification />
+      {/*<CartNotification />*/}
 
-      <NotificationDropdown />
+      {/*<NotificationDropdown />*/}
       <ProfileDropdown />
     </Nav>
   );

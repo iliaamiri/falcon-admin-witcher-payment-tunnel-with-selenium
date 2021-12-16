@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import NavbarDropdown from './NavbarDropdown';
 import NavbarDropdownComponents from './NavbarDropdownComponents';
 import {
-  authenticationRoutes,
+  // authenticationRoutes,
   chatRoutes,
   componentRoutes,
   ECommerceRoutes,
@@ -40,11 +40,11 @@ const NavbarTopDropDownMenus = ({ setNavbarCollapsed }) => {
         items={components}
         handleSetNavbarCollapsed={handleSetNavbarCollapsed}
       />
-      <NavbarDropdown
-        title={authenticationRoutes.name}
-        items={authenticationRoutes.children}
-        handleSetNavbarCollapsed={handleSetNavbarCollapsed}
-      />
+      {/*<NavbarDropdown*/}
+      {/*  title={authenticationRoutes.name}*/}
+      {/*  items={authenticationRoutes.children}*/}
+      {/*  handleSetNavbarCollapsed={handleSetNavbarCollapsed}*/}
+      {/*/>*/}
 
       <NavItem onClick={handleSetNavbarCollapsed}>
         <NavLink tag={Link} to="/documentation">

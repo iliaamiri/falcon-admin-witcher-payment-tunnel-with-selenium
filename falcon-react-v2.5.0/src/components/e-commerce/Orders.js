@@ -1,4 +1,4 @@
-import React, { createRef, Fragment, useState } from 'react';
+import React, {createRef, Fragment, useEffect, useState} from 'react';
 import paginationFactory, { PaginationProvider } from 'react-bootstrap-table2-paginator';
 import BootstrapTable from 'react-bootstrap-table-next';
 import {
@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import Badge from 'reactstrap/es/Badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FalconCardHeader from '../common/FalconCardHeader';
+import { reports } from '../../witcherApi/api';
 import orders from '../../data/e-commerce/orders';
 import { getPaginationArray } from '../../helpers/utils';
 import Form from "reactstrap/es/Form";
@@ -27,14 +28,20 @@ import Label from "reactstrap/es/Label";
 import Flex from "../common/Flex";
 import FalconInput from "../common/FalconInput";
 
+const seleniumServerIdFormatter = (dataField, { selenium_server_id }: row) => (
+  <Fragment>
+    <strong>{selenium_server_id}</strong>
+  </Fragment>
+)
+
 const orderFormatter = (dataField, { id, name, email }: row) => (
   <Fragment>
     <Link to="/e-commerce/order-details">
       <strong>#{id}</strong>
     </Link>{' '}
-    by <strong>{name}</strong>
+    {/*by <strong>{name}</strong>*/}
     <br />
-    <a href={`mailto:${email}`}>{email}</a>
+    {/*<a href={`mailto:${email}`}>{email}</a>*/}
   </Fragment>
 );
 
@@ -50,30 +57,40 @@ const badgeFormatter = status => {
   let icon = '';
   let text = '';
   switch (status) {
-    case 'success':
+    case 1:
       color = 'success';
       icon = 'check';
-      text = 'Completed';
+      text = 'پرداخت موفق';
       break;
-    case 'hold':
+    case 11:
+      color = 'secondary';
+      icon = 'check';
+      text = 'پرداخت موفق';
+      break;
+    case 12:
+      color = 'success';
+      icon = 'check';
+      text = 'پرداخت موفق';
+      break;
+    case 5:
       color = 'secondary';
       icon = 'ban';
-      text = 'On hold';
+      text = 'خطا';
       break;
-    case 'processing':
-      color = 'primary';
-      icon = 'redo';
-      text = 'Processing';
-      break;
-    case 'pending':
+    // case 'processing':
+    //   color = 'primary';
+    //   icon = 'redo';
+    //   text = 'Processing';
+    //   break;
+    case 0:
       color = 'warning';
       icon = 'stream';
-      text = 'Pending';
+      text = 'معلق';
       break;
     default:
       color = 'warning';
       icon = 'stream';
-      text = 'Pending';
+      text = 'معلق';
   }
 
   return (
@@ -87,7 +104,7 @@ const badgeFormatter = status => {
 const amountFormatter = amount => {
   return (
     <Fragment>
-      {'$'}
+      {'تومان'}
       {amount}
     </Fragment>
   );
@@ -112,57 +129,108 @@ const actionFormatter = (dataField, { id }: row) => (
   </UncontrolledDropdown>
 );
 
+const callbackVerificationFormatter = (dataField, { return_url }: row) => {
+  if (dataField === "verified") {
+    return <td style={{
+      background: "green",
+      borderRadius: "4px",
+      padding: "6px 20px 6px 20px",
+      color: "white"
+    }}>تایید برگشت</td>
+  } else {
+    return <a title={return_url} style={{color: "red"}} href={return_url}>لینک برگشت</a>
+  }
+};
+
+const creationTimeFormatter = (dataField, {}: row) => {
+  let time = new Date(dataField * 1000);
+
+  let year = time.getFullYear();
+  let month = time.getMonth();
+  let day = time.getDate();
+
+  let hours = time.getHours();
+  let minutes = time.getMinutes();
+  let second = time.getSeconds();
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${second}`;
+};
+
+const bankCodeFormatter = (dataField) => (
+    <td style={{
+      background: "#FFE8FE",
+      color: "blue"
+    }}>{dataField}</td>
+);
+
+// const cardNumberFormatter = (dataField, {}) => ();
+
 const columns = [
   {
+    dataField: 'selenium_server_id',
+    text: 'S',
+    classes: 'py-2 align-middle',
+    formatter: seleniumServerIdFormatter,
+    sort: true
+  },
+  {
     dataField: 'id',
-    text: 'Order',
+    text: 'ID',
     classes: 'py-2 align-middle',
     formatter: orderFormatter,
     sort: true
   },
   {
-    dataField: 'date',
-    text: 'Date',
+    dataField: 'api_key',
+    text: 'API',
     classes: 'py-2 align-middle',
-    sort: true
-  },
-  {
-    dataField: 'address',
-    text: 'Ship to',
-    classes: 'py-2 align-middle',
-    formatter: shippingFormatter,
-    sort: true
-  },
-  {
-    dataField: 'status',
-    text: 'Status',
-    classes: 'py-2 align-middle',
-    formatter: badgeFormatter,
     sort: true
   },
   {
     dataField: 'amount',
-    text: 'Amount',
+    text: 'مبلغ تومان',
     classes: 'py-2 align-middle',
     formatter: amountFormatter,
     sort: true,
     align: 'right',
     headerAlign: 'right'
+  },,
+  {
+    dataField: 'status',
+    text: 'وضعیت',
+    classes: 'py-2 align-middle',
+    formatter: badgeFormatter,
+    sort: true
   },
   {
-    dataField: '',
-    text: '',
+    dataField: 'submitted_cardNumber',
+    text: 'شماره کارت',
     classes: 'py-2 align-middle',
-    formatter: actionFormatter,
+    sort: true,
+    // align: 'right',
+    // headerAlign: 'right'
+  },
+  {
+    dataField: 'creation_time',
+    text: 'زمان پرداخت',
+    classes: 'py-2 align-middle',
+    formatter: creationTimeFormatter,
+  },
+  {
+    dataField: 'bank_code',
+    text: 'کد پیگیری',
+    classes: 'py-2 align-middle',
+    formatter: bankCodeFormatter,
+    align: 'right'
+  },
+  {
+    dataField: 'TEST',
+    text: 'تاییدیه برگشت',
+    classes: 'py-2 align-middle',
+    formatter: callbackVerificationFormatter,
     align: 'right'
   }
 ];
-
-const options = {
-  custom: true,
-  sizePerPage: 10,
-  totalSize: orders.length
-};
 
 const SelectRowInput = ({ indeterminate, rowIndex, ...rest }) => (
   <div className="custom-control custom-checkbox">
@@ -189,6 +257,28 @@ const selectRow = onSelect => ({
 });
 
 const Orders = () => {
+  const [reportsData, setReportsData] = useState({data: []});
+
+  const getReport = async () => {
+    const response = await reports.get();
+
+    const responseData = response.data;
+
+    setReportsData(responseData);
+  }
+
+  useEffect(() => {
+    getReport();
+  }, [])
+
+  console.log(reportsData)
+
+  const options = {
+    custom: true,
+    sizePerPage: reportsData.results_per_page,
+    totalSize: reportsData.data.length
+  };
+
   let table = createRef();
   // State
   const [isSelected, setIsSelected] = useState(false);
@@ -247,7 +337,7 @@ const Orders = () => {
             return (
               <Fragment>
                 {/* To add the form for reports and shits */}
-                
+
                 {/*<Row noGutters className="px-1 py-3 flex-between-center">*/}
                 {/*  <Form>*/}
                 {/*    <FormGroup>*/}
@@ -266,7 +356,7 @@ const Orders = () => {
                     ref={table}
                     bootstrap4
                     keyField="id"
-                    data={orders}
+                    data={reportsData.data}
                     columns={columns}
                     selectRow={selectRow(onSelect)}
                     bordered={false}

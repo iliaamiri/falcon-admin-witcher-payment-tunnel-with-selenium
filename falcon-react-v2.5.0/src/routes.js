@@ -7,13 +7,13 @@ export const homeRoutes = {
   icon: 'chart-pie',
   children: [
     {
-      to: '/',
-      name: 'Dashboard',
-      exact: true
+      to: '/dashboard',
+      name: 'Dashboard'
     },
-    { to: '/dashboard-alt', name: 'Dashboard alt' },
-    { to: '/feed', name: 'Feed', exact: true },
-    { to: '/landing', name: 'Landing' }
+    { to: '/', name: 'Report'}
+    // { to: '/dashboard-alt', name: 'Dashboard alt' },
+    // { to: '/feed', name: 'Feed', exact: true },
+    // { to: '/landing', name: 'Landing' }
   ]
 };
 
@@ -286,15 +286,15 @@ export const utilityRoutes = {
 
 export default [
   homeRoutes,
-  pageRoutes,
-  chatRoutes,
-  emailRoutes,
-  authenticationRoutes,
-  ECommerceRoutes,
-  widgetsRoutes,
-  componentRoutes,
-  utilityRoutes,
-  pluginRoutes,
-  documentationRoutes,
-  changelogRoutes
+  // pageRoutes,
+  // chatRoutes,
+  // emailRoutes,
+  // // authenticationRoutes,
+  // ECommerceRoutes,
+  // widgetsRoutes,
+  // componentRoutes,
+  // utilityRoutes,
+  // pluginRoutes,
+  // documentationRoutes,
+  // changelogRoutes
 ];

@@ -10,6 +10,8 @@ import loadable from '@loadable/component';
 import AppContext from '../context/Context';
 import ProductProvider from '../components/e-commerce/ProductProvider';
 import SidePanelModal from '../components/side-panel/SidePanelModal';
+import Orders from "../components/e-commerce/Orders";
+import AuthBasicLayout from "./AuthBasicLayout";
 
 const DashboardRoutes = loadable(() => import('./DashboardRoutes'));
 
@@ -31,8 +33,11 @@ const DashboardLayout = ({ location }) => {
         <div className="content">
           <NavbarTop />
           <Switch>
-            <Route path="/" exact component={Dashboard} />
-            <Route path="/dashboard-alt" exact component={DashboardAlt} />
+            <Route path="/" exact component={Orders} />
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/login" component={AuthBasicLayout} />
+            {/*<Route path="/dashboard-alt" exact component={DashboardAlt} />*/}
+            {/* All other menu items' Routing: */}
             <DashboardRoutes />
           </Switch>
           <Footer />
