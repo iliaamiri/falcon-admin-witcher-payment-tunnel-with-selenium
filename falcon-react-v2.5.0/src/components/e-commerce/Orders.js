@@ -28,6 +28,7 @@ import Label from "reactstrap/es/Label";
 import Flex from "../common/Flex";
 import FalconInput from "../common/FalconInput";
 import ReportForm from "../myCustoms/ReportsForm";
+import UncontrolledAlert from "reactstrap/es/UncontrolledAlert";
 
 const seleniumServerIdFormatter = (dataField, { selenium_server_id }: row) => (
   <Fragment>
@@ -157,14 +158,32 @@ const creationTimeFormatter = (dataField, {}: row) => {
   return `${year}-${month}-${day} ${hours}:${minutes}:${second}`;
 };
 
-const bankCodeFormatter = (dataField) => (
-    <td style={{
-      background: "#FFE8FE",
-      color: "blue"
-    }}>{dataField}</td>
-);
+const bankCodeFormatter = (dataField) => {
+  if (dataField == null) {
+    return (<Badge color="soft-warning" className="rounded-capsule fs--1 d-block">
+      ثبت نشده
+      <FontAwesomeIcon icon="stream" transform="shrink-2" className="ml-1" />
+    </Badge>)
+  }
 
-// const cardNumberFormatter = (dataField, {}) => ();
+  return (<td style={{
+    background: "#FFE8FE",
+    color: "blue"
+  }}>{dataField}</td>)
+};
+
+const cardNumberFormatter = (dataField, {}:row) => {
+   if (dataField == null) {
+     return (
+         <Badge color="soft-warning" className="rounded-capsule fs--1 d-block">
+          وارد نشده
+          <FontAwesomeIcon icon="stream" transform="shrink-2" className="ml-1" />
+         </Badge>
+     )
+   }
+
+   return dataField
+};
 
 const columns = [
   {
@@ -207,6 +226,7 @@ const columns = [
     dataField: 'submitted_cardNumber',
     text: 'شماره کارت',
     classes: 'py-2 align-middle',
+    formatter: cardNumberFormatter,
     sort: true,
     // align: 'right',
     // headerAlign: 'right'
@@ -259,6 +279,7 @@ const selectRow = onSelect => ({
 
 const Orders = () => {
   const [reportsData, setReportsData] = useState({data: []});
+  const [errorMessage, setErrorMessage] = useState('');
 
   const getReport = async () => {
     const response = await reports.get();
@@ -299,7 +320,7 @@ const Orders = () => {
 
   return (
     <>
-      <ReportForm />
+      <ReportForm updateData={setReportsData} handleError={setErrorMessage}/>
       <Card className="mb-3">
         <FalconCardHeader light={false}>
           {isSelected ? (
@@ -328,6 +349,12 @@ const Orders = () => {
               </Fragment>
           )}
         </FalconCardHeader>
+        {errorMessage && (
+            <UncontrolledAlert color="danger" >
+              {errorMessage}
+            </UncontrolledAlert>
+        )}
+
         <CardBody className="p-0">
           <PaginationProvider pagination={paginationFactory(options)}>
             {({ paginationProps, paginationTableProps }) => {
@@ -379,7 +406,8 @@ const Orders = () => {
                         >
                           <FontAwesomeIcon icon="chevron-left" />
                         </Button>
-                        {getPaginationArray(paginationProps.totalSize, paginationProps.sizePerPage).map(pageNo => (
+                        {getPaginationArray(paginationProps.totalSize, paginationProps.sizePerPage).map(pageNo => {
+                        return (
                             <Button
                                 color={paginationProps.page === pageNo ? 'falcon-primary' : 'falcon-default'}
                                 size="sm"
@@ -389,7 +417,8 @@ const Orders = () => {
                             >
                               {pageNo}
                             </Button>
-                        ))}
+                        )
+                        })}
                         <Button
                             color="falcon-default"
                             size="sm"

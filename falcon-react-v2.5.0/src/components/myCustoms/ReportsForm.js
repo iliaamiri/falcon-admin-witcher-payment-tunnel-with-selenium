@@ -19,18 +19,36 @@ import iconPaypalFull from "../../assets/img/icons/icon-paypal-full.png";
 import iconPaymentMethods from "../../assets/img/icons/icon-payment-methods.png";
 import {isIterableArray} from "../../helpers/utils";
 import countries from "../../data/billing/countries";
+import { reports } from "../../witcherApi/api";
+import UncontrolledAlert from "reactstrap/es/UncontrolledAlert";
 
-const ReportForm = () => {
+const ReportForm = ({ updateData, handleError }) => {
 
     const [orderNumber, setOrderNumber] = useState('');
     const [cardNumber, setCardNumber] = useState('');
     const [apiKey, setApiKey] = useState('');
     const [verify, setVerify] = useState('');
     const [invoiceKey, setInvoiceKey] = useState('');
-    const [country, setCountry] = useState('United States');
-    const [zip, setZip] = useState('');
-    const [expDate, setExpDate] = useState('');
-    const [cvv, setCvv] = useState('');
+
+    const handleSubmit = e => {
+        e.preventDefault();
+
+        reports.get({
+            api_key: apiKey,
+            invoice_key: invoiceKey,
+            order_number: orderNumber,
+            pan: cardNumber,
+            verify: verify,
+            page: 1,
+            results_per_page: 20
+        })
+            .then(rawData => rawData.data)
+            .then(data => updateData(data))
+            .catch(err => {
+                handleError("No result was found!")
+            });
+    }
+
 
     const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
@@ -38,7 +56,7 @@ const ReportForm = () => {
         <Card className="h-100">
             <FalconCardHeader title="Reports" light={false} />
             <CardBody className="bg-light">
-                <Row tag={Form}>
+                <Row tag={Form} onSubmit={handleSubmit}>
                     <Col>
 
                 {/*        <CustomInput*/}
@@ -78,7 +96,7 @@ const ReportForm = () => {
                             <Col>
                                 <FormGroup>
                                     <Label className={labelClasses} for="invoice_key">
-                                        InvoiceKey
+                                        Invoice Key
                                     </Label>
                                     <Input
                                         placeholder=""
@@ -91,7 +109,7 @@ const ReportForm = () => {
                             <Col>
                                 <FormGroup>
                                     <Label className={labelClasses} for="ordernumber">
-                                        OrderN
+                                        Order-Number
                                     </Label>
                                     <Input
                                         placeholder=""
