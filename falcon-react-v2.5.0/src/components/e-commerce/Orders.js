@@ -322,7 +322,7 @@ const Orders = () => {
     <>
       <ReportForm updateData={setReportsData} handleError={setErrorMessage}/>
       <Card className="mb-3">
-        <FalconCardHeader light={false}>
+        <FalconCardHeader light={false} title="">
           {isSelected ? (
               <InputGroup size="sm" className="input-group input-group-sm">
                 <CustomInput type="select" id="bulk-select">

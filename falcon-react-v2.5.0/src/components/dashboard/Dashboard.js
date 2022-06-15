@@ -1,17 +1,14 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Row, Col, Card, CardBody, Button, InputGroup, CustomInput } from 'reactstrap';
-import CountUp from 'react-countup';
+
 import CardSummary from './CardSummary';
-import ActiveUsersBarChart from './ActiveUsersBarChart';
-import PaymentsLineChart from './PaymentsLineChart';
+
 import { toast } from 'react-toastify';
-import FalconCardHeader from '../common/FalconCardHeader';
-import ButtonIcon from '../common/ButtonIcon';
+
 
 
 
 import loadable from '@loadable/component';
-import DashBoardDepositStatus from './DashboardDepositStatus';
+
 import {statistics} from "../../witcherApi/api";
 const PurchasesTable = loadable(() => import('./PurchasesTable'));
 const ActiveUsersMap = loadable(() => import('./ActiveUsersMap'));

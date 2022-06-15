@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
-import { CloseButton, Fade } from '../components/common/Toast';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {toast, ToastContainer} from 'react-toastify';
+import {CloseButton, Fade} from '../components/common/Toast';
 
 import {auth} from '../witcherApi/api';
 
@@ -10,6 +10,7 @@ import ErrorLayout from './ErrorLayout';
 
 import loadable from '@loadable/component';
 import {Redirect} from "react-router-dom";
+
 const AuthBasicLayout = loadable(() => import('./AuthBasicLayout'));
 
 const Layout = () => {
@@ -30,7 +31,7 @@ const Layout = () => {
 
   const Auth = () => {
     if (isLoggedIn) {
-      return <Route component={DashboardLayout} />
+      return <Route component={DashboardLayout}/>
     } else {
       return <>{checkForRedirect()}</>
     }
@@ -38,15 +39,17 @@ const Layout = () => {
 
   const checkForRedirect = () => {
     if (shouldLogin) {
-      return <Redirect to={"/auth/login"} />
+      return <Redirect to={"/auth/login"}/>
     }
   }
 
 
   useEffect(() => {
-    authneticate().catch(() => {
-      setShouldLogin(true);
-    })
+    authneticate()
+      .then()
+      .catch(() => {
+        setShouldLogin(true);
+      })
   }, [])
 
   useEffect(() => {
@@ -54,13 +57,13 @@ const Layout = () => {
   }, []);
 
   return (
-    <Router fallback={<span />}>
+    <Router fallback={<span/>}>
       <Switch>
-        <Route path="/auth" component={AuthBasicLayout} />
-        <Route path="/errors" component={ErrorLayout} />
-        <Auth />
+        <Route path="/auth" component={AuthBasicLayout}/>
+        <Route path="/errors" component={ErrorLayout}/>
+        <Auth/>
       </Switch>
-      <ToastContainer transition={Fade} closeButton={<CloseButton />} position={toast.POSITION.BOTTOM_LEFT} />
+      <ToastContainer transition={Fade} closeButton={<CloseButton/>} position={toast.POSITION.BOTTOM_LEFT}/>
     </Router>
   );
 };

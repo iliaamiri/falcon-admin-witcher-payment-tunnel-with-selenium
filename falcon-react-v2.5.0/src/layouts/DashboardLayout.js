@@ -12,6 +12,7 @@ import ProductProvider from '../components/e-commerce/ProductProvider';
 import SidePanelModal from '../components/side-panel/SidePanelModal';
 import Orders from "../components/e-commerce/Orders";
 import AuthBasicLayout from "./AuthBasicLayout";
+import TestForm from "../components/test/TestForm";
 
 const DashboardRoutes = loadable(() => import('./DashboardRoutes'));
 
@@ -35,6 +36,7 @@ const DashboardLayout = ({ location }) => {
           <Switch>
             <Route path="/" exact component={Orders} />
             <Route path="/dashboard" component={Dashboard} />
+            <Route path="/test" component={TestForm} />
             <Route path="/login" component={AuthBasicLayout} />
             {/*<Route path="/dashboard-alt" exact component={DashboardAlt} />*/}
             {/* All other menu items' Routing: */}

@@ -2,9 +2,13 @@ const compression = require('compression');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require("cors");
 const app = express();
 app.use(compression());
 app.disable('x-powered-by');
+app.use(cors({
+  origin: '*',
+}));
 app.use(express.static(path.join(__dirname, 'build')));
 // need to declare a "catch all" route on your express server
 // that captures all page requests and directs them to the client

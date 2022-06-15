@@ -13,6 +13,9 @@ const AuthorizationHeaders = {
 export const auth = {
     authenticate: () =>
         axios.post(`${apiServerAddress}/auth/token`, {secret: secretKey }, {headers: AuthorizationHeaders}),
+    isAuthenticated: function () {
+      return this.authenticate().then(res => res.data?.status)
+    },
     login: (api_key) =>
         axios.post(`${apiServerAddress}/auth/login`, {api_key: api_key, secret: secretKey}),
     saveToken: (token) =>

@@ -12,6 +12,12 @@ const LoginForm = ({setRedirect, hasLabel, layout}) => {
     const [remember, setRemember] = useState(true);
     const [isDisabled, setIsDisabled] = useState(true);
 
+    auth.isAuthenticated().then(isAuthenticated => {
+       if (isAuthenticated) {
+           window.location.href = '/';
+       }
+    });
+
     // Handler
     const handleSubmit = e => {
         e.preventDefault();
@@ -27,11 +33,15 @@ const LoginForm = ({setRedirect, hasLabel, layout}) => {
             .then(token => auth.saveToken(token))
             .then(() => {
                 toast.success(`Logged in as ${api_key}`);
+                // redirect to /
+                window.location.href = '/';
                 setRedirect(true)
             })
             .catch(err => {
-                console.log(err)
-            })
+                console.log(err);
+                const errorMessage = err.response.data.msg;
+                toast.error(errorMessage);
+            });
     };
 
     useEffect(() => {
@@ -59,11 +69,11 @@ const LoginForm = ({setRedirect, hasLabel, layout}) => {
                         type="checkbox"
                     />
                 </Col>
-                <Col xs="auto">
-                    <Link className="fs--1" to={`/auth/forget-apikey`}>
-                        Forget Your Api Key?
-                    </Link>
-                </Col>
+                {/*<Col xs="auto">*/}
+                {/*    <Link className="fs--1" to={`/auth/forget-apikey`}>*/}
+                {/*        Forget Your Api Key?*/}
+                {/*    </Link>*/}
+                {/*</Col>*/}
             </Row>
             <FormGroup>
                 <Button color="primary" block className="mt-3" disabled={isDisabled}>
